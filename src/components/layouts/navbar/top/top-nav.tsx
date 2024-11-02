@@ -4,28 +4,32 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { customizeColors, info } from "@/data/info";
+import { cn } from "@/lib/utils";
 import { PhoneCall, Mail, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
 function TopNavigation() {
+  const { companyName, companyPhone, companyEmail, companyDescription } = info;
+  const { bg } = customizeColors;
   return (
-    <div className="bg-zinc-700 py-4 md:px-4">
+    <div className={cn("py-4 md:px-4", bg)}>
       <div className="container flex items-center justify-between text-white text-xs">
         <div className="flex items-center space-x-2">
           <div className="md:flex items-center space-x-2 hidden">
             <PhoneCall size={12} />
-            <h4>099-999-9999</h4>
+            <h4>{companyPhone}</h4>
           </div>
           <div className="md:flex items-center space-x-2 hidden">
             <Mail size={12} />
-            <h4>example@example.com</h4>
+            <h4>{companyEmail}</h4>
           </div>
           <div />
-          <h4 className="hidden sm:block">นึกถึง keeblur นึกถึงคียบอร์ด </h4>
-          <h2 className="capitalize font-heading font-bold sm:hidden">
-            keeblur
-          </h2>
+          <h4 className="hidden sm:block">{companyDescription}</h4>
+          <div className="capitalize font-bold sm:hidden text-lg ">
+            <h1>{companyName}</h1>
+          </div>
         </div>
         <div>
           <DropdownMenu>

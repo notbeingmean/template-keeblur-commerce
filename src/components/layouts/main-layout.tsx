@@ -1,8 +1,9 @@
 import React from "react";
 import ContainerWrapper from "../wrappers/container";
 import Navbar from "./navbar/navbar";
-import TopNavigation from "./navbar/top-nav";
-import BottomNavigation from "./navbar/bottom-nav";
+import TopNavigation from "./navbar/top/top-nav";
+import BottomNavigation from "./navbar/bottom/bottom-nav";
+import Footer from "./footer/footer";
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ function MainLayout({ children }: MainLayoutProps) {
         {children}
         <BottomNavigation />
       </ContainerWrapper>
+      <Footer />
     </>
   );
 }
