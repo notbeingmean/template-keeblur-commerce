@@ -10,7 +10,7 @@ import React from "react";
 
 function TopNavigation() {
   return (
-    <div className="bg-zinc-900 py-4 md:px-4">
+    <div className="bg-zinc-700 py-4 md:px-4">
       <div className="container flex items-center justify-between text-white text-xs">
         <div className="flex items-center space-x-2">
           <div className="md:flex items-center space-x-2 hidden">
@@ -22,7 +22,10 @@ function TopNavigation() {
             <h4>example@example.com</h4>
           </div>
           <div />
-          <h4 className="">นึกถึง keeblur นึกถึงคียบอร์ด </h4>
+          <h4 className="hidden sm:block">นึกถึง keeblur นึกถึงคียบอร์ด </h4>
+          <h2 className="capitalize font-heading font-bold sm:hidden">
+            keeblur
+          </h2>
         </div>
         <div>
           <DropdownMenu>

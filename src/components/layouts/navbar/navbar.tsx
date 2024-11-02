@@ -19,8 +19,10 @@ function Navbar() {
   return (
     <div className="flex justify-between items-center text-sm my-2 p-4 sticky top-0 z-10 bg-white ">
       <div className="flex items-center space-x-2">
-        <h1 className="font-bold capitalize text-lg">keeblur</h1>
-        <NavigationMenu>
+        <h1 className="font-bold capitalize text-lg sm:block hidden">
+          keeblur
+        </h1>
+        <NavigationMenu className="hidden sm:block">
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className="flex items-center space-x-1">
@@ -42,21 +44,24 @@ function Navbar() {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="w-full max-w-xl">
+      <div className="w-full max-w-xl ">
         <IconInput
           icon={<Search className="h-4 w-4 " />}
           placeholder="ค้นหาสินค้า"
-          className="w-full rounded-xl hidden md:block"
+          className="w-full rounded-xl "
+          containerClassName=""
         />
       </div>
       <div className="flex items-center space-x-4">
-        <div className="relative">
+        <div className="relative hidden md:block">
           <ShoppingCart />
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
             38
           </span>
         </div>
-        <Button>เข้าสู่ระบบ</Button>
+        <Button size="sm" className="hidden md:block">
+          เข้าสู่ระบบ
+        </Button>
       </div>
     </div>
   );
