@@ -6,7 +6,7 @@ const app = new Elysia({ prefix: "/api" })
   .use(
     staticPlugin({
       assets: process.cwd() + "/public",
-    })
+    }),
   )
   .use(router);
 

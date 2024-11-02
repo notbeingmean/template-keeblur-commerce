@@ -46,7 +46,7 @@ function Navbar() {
         <IconInput
           icon={<Search className="h-4 w-4 " />}
           placeholder="ค้นหาสินค้า"
-          className="w-full rounded-xl"
+          className="w-full rounded-xl hidden md:block"
         />
       </div>
       <div className="flex items-center space-x-4">
