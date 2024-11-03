@@ -1,12 +1,12 @@
 import React from "react";
 
-import { Search, ShoppingCart } from "lucide-react";
-
-import IconInput from "@/components/ui/icon-input";
-import { Button } from "@/components/ui/button";
-import NavMenu from "./nav-menu";
-import { customizeColors, info } from "@/data/info";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart } from "lucide-react";
+import { customizeColors, info } from "@/data/info";
+
+import NavMenu from "./nav-menu";
+import SearchInput from "./search-input";
 
 async function Navbar() {
   const { companyName } = info;
@@ -25,14 +25,7 @@ async function Navbar() {
         </h1>
         <NavMenu />
       </div>
-      <div className="w-full max-w-xl mx-4">
-        <IconInput
-          icon={<Search className="h-4 w-4 " />}
-          placeholder="ค้นหาสินค้า"
-          className="w-full rounded-xl "
-          containerClassName=""
-        />
-      </div>
+      <SearchInput />
       <div className="flex items-center space-x-4 ">
         <div className="relative hidden sm:block">
           <ShoppingCart />

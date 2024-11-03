@@ -11,23 +11,8 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { client } from "@/server/client";
+import { CategoryData, fetchCategories } from "@/lib/utils";
 
-async function fetchCategories() {
-  const { data, error } = await client.api.categories.get({
-    query: {
-      take: 5,
-    },
-  });
-
-  if (error) {
-    return [];
-  }
-
-  return data;
-}
-
-type CategoryData = Awaited<ReturnType<typeof fetchCategories>>;
 type CategoryListProps = {
   categories: CategoryData;
   // eslint-disable-next-line no-unused-vars
@@ -42,7 +27,7 @@ function NavMenu() {
 
   const getCategories = useCallback(async () => {
     try {
-      const categoriesData = await fetchCategories();
+      const categoriesData = await fetchCategories({ take: 5 });
       setCategories(categoriesData);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -88,13 +73,13 @@ function CategoryList({
     <div className="p-4 w-96">
       <ul>
         {categories.map((category) => (
-          <li key={category.category_id} className="relative">
+          <li key={category.category_id}>
             <button
               onClick={() => onCategoryClick(category.category_id)}
-              className="w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-200 flex items-center justify-between"
+              className="w-full px-4 py-2 text-left text-zinc-800 hover:bg-zinc-200 flex items-center justify-between"
             >
               {category.name}
-              <ChevronRight className="w-4 h-4 text-gray-400" />
+              <ChevronRight className="w-4 h-4 text-zinc-400" />
             </button>
             <Transition
               show={activeCategory === category.category_id}
@@ -111,7 +96,7 @@ function CategoryList({
                     <li key={product.product_id}>
                       <Link
                         href={`/${category.slug}/${product.slug}`}
-                        className="block px-6 py-2 text-gray-700 hover:bg-gray-100"
+                        className="block px-6 py-2 text-zinc-700 hover:bg-zinc-100"
                       >
                         {product.name}
                       </Link>
@@ -120,9 +105,9 @@ function CategoryList({
                   <li>
                     <Link
                       href={`/${category.slug}`}
-                      className="block px-6 py-2 text-gray-700 hover:bg-gray-100"
+                      className="block px-6 py-2 text-zinc-700 hover:bg-zinc-100"
                     >
-                      ดูทั้งหมด
+                      ดูเพิ่มเติม
                     </Link>
                   </li>
                 </ul>
@@ -130,6 +115,14 @@ function CategoryList({
             </Transition>
           </li>
         ))}
+        <li>
+          <Link
+            href="/categories"
+            className="w-full px-4 py-2 text-left text-zinc-800 hover:bg-zinc-200 flex items-center justify-between"
+          >
+            ดูทั้งหมด
+          </Link>
+        </li>
       </ul>
     </div>
   );
