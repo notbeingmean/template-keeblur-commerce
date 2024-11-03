@@ -1,3 +1,4 @@
+"use client";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -13,6 +14,9 @@ import React from "react";
 function TopNavigation() {
   const { companyName, companyPhone, companyEmail, companyDescription } = info;
   const { bg } = customizeColors;
+
+  const [language, setLanguage] = React.useState("th");
+
   return (
     <div className={cn("py-4 md:px-4", bg)}>
       <div className="container flex items-center justify-between text-white text-xs">
@@ -34,18 +38,34 @@ function TopNavigation() {
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger className="space-x-2 flex items-center">
-              <Image
-                src="/thai-flag.svg"
-                width={20}
-                height={20}
-                alt="thailand"
-              />
-              <div className="flex items-center space-x-1">
-                <span>ไทย</span> <ChevronDown size={14} />
-              </div>
+              {language === "th" ? (
+                <>
+                  <Image
+                    src="/thai-flag.svg"
+                    width={20}
+                    height={20}
+                    alt="thailand"
+                  />
+                  <div className="flex items-center space-x-1">
+                    <span>ไทย</span> <ChevronDown size={14} />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Image
+                    src="/us-flag.svg"
+                    width={20}
+                    height={20}
+                    alt="thailand"
+                  />
+                  <div className="flex items-center space-x-1">
+                    <span>Eng</span> <ChevronDown size={14} />
+                  </div>
+                </>
+              )}
             </DropdownMenuTrigger>
             <DropdownMenuContent className="min-w-24">
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage("th")}>
                 <Image
                   src="/thai-flag.svg"
                   width={20}
@@ -54,7 +74,7 @@ function TopNavigation() {
                 />
                 ภาษาไทย
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage("en")}>
                 <Image
                   src="/us-flag.svg"
                   width={20}

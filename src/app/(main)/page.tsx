@@ -3,11 +3,9 @@ import BlogSection from "@/components/sections/blogsection";
 import HeroSection from "@/components/sections/herosection";
 import ProductSection from "@/components/sections/products-section";
 
-import { client } from "@/server/client";
-
 export default async function Home() {
-  const { data } = await client.api.hi.get();
   const arr = [1, 2, 3, 4, 5];
+
   return (
     <>
       <HeroSection />
