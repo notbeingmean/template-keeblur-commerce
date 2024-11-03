@@ -1,5 +1,6 @@
 import Elysia from "elysia";
-import { authRouter } from "./(private)/auth";
-import categoriesPublicRouter from "./(public)/categories/categories";
 
-export const router = new Elysia().use(authRouter).use(categoriesPublicRouter);
+import publicRouter from "./public";
+import privateRouter from "./private";
+
+export const router = new Elysia().use(publicRouter).use(privateRouter);

@@ -11,9 +11,11 @@ const categoriesPublicRouter = new Elysia()
           include: {
             products: {
               skip: query.skip,
-              take: query.take,
+              take: query.product_take,
             },
           },
+          skip: query.skip,
+          take: query.take,
         });
 
         return categories;
@@ -25,6 +27,8 @@ const categoriesPublicRouter = new Elysia()
       query: t.Object({
         skip: t.Optional(t.Number()),
         take: t.Optional(t.Number()),
+        product_skip: t.Optional(t.Number()),
+        product_take: t.Optional(t.Number()),
       }),
     }
   )
