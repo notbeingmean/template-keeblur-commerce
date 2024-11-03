@@ -19,7 +19,7 @@ function BlogSection() {
         </div>
       </div>
       <div className="space-y-2 my-2">
-        <div className="grid grid-cols-2 h-full gap-2">
+        <div className="grid md:grid-cols-2 grid-cols-1 h-full gap-2">
           {arr.slice(0, 2).map((item) => (
             <div className="relative" key={item}>
               <Image
@@ -30,9 +30,9 @@ function BlogSection() {
                 className="object-cover w-full h-full max-h-96 rounded "
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center flex-col">
-                <div className="text-white  mt-40 text-center">
+                <div className="text-white  md:mt-40 mt-20 text-center">
                   <p className="text-sm">อุปกรณ์จัดโต๊ะคอม</p>
-                  <p>ให้โต๊ะทำงานมีประสิทธิภาพมากขึ้น</p>
+                  <p className="text-xs">ให้โต๊ะทำงานมีประสิทธิภาพมากขึ้น</p>
                   <Button className="mt-2 rounded-none p-4 bg-white text-black hover:bg-zinc-300">
                     ดูสินค้า <ChevronRight />
                   </Button>
@@ -41,7 +41,7 @@ function BlogSection() {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-3 h-full gap-2">
+        <div className="md:grid grid-cols-3 h-full gap-2 hidden">
           {arr.slice(2, 5).map((item) => (
             <div className="relative" key={item}>
               <Image

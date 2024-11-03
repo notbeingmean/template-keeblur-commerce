@@ -28,9 +28,9 @@ function ProductSection({
           <p className="text-sm">{description}</p>
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
         {products.map((item, index) => (
-          <div key={index} className="   p-4 rounded">
+          <div key={index} className="p-4 rounded">
             <Image
               src="/placeholder/200x200.svg"
               width={200}
@@ -52,14 +52,13 @@ function ProductSection({
             </div>
           </div>
         ))}
-
-        <Link
-          href="/products"
-          className="col-span-2 md:col-span-5 flex items-center justify-center p-1 rounded bg-white text-black underline underline-offset-2"
-        >
-          ดูเพิ่มเติม
-        </Link>
       </div>
+      <Link
+        href="/products"
+        className="col-span-2 md:col-span-5 flex items-center justify-center p-1 rounded bg-white text-black underline underline-offset-2"
+      >
+        ดูเพิ่มเติม
+      </Link>
     </div>
   );
 }
