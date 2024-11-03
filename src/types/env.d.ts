@@ -8,6 +8,13 @@ const publicEnv = z.object({
 const privateEnv = z.object({
   PORT: z.string().default("3000"),
   NODE_ENV: z.string().default("development"),
+  BETTER_AUTH_SECRET: z.string(),
+  BETTER_AUTH_URL: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+  GITHUB_CLIENT_ID: z.string(),
+  GITHUB_CLIENT_SECRET: z.string(),
+  DATABASE_URL: z.string(),
 });
 
 declare global {

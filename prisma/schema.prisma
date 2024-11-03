@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  Session       Session[]
+  Account       Account[]
+  Cart          Cart[]
+  Order         Order[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
+
+  @@map("session")
+}
+
+model Account {
+  id           String    @id @default(cuid())
+  userId       String
+  accountId    String
+  providerId   String
+  accessToken  String?
+  refreshToken String?
+  expiresAt    DateTime?
+  password     String?
+  User         User      @relation(fields: [userId], references: [id])
+  idToken      String?
+
+  @@map("account")
+}
+
+model Verification {
+  id          String   @id @default(cuid())
+  indentifier String
+  value       String
+  expiresAt   DateTime
+  identifier  String
+
+  @@map("verification")
+}
+
+model Category {
+  category_id String  @id @default(cuid())
+  name        String
+  description String?
+  slug        String
+
+  products Product[]
+}
+
+model Product {
+  product_id  String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  stock       Int
+  slug        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  category Category[]
+
+  images     Product_Image[]
+  orderItems Order_Item[]
+  cartItems  Cart_Item[]
+}
+
+model Product_Image {
+  image_id String  @id @default(cuid())
+  imageUrl String
+  altText  String?
+  position Int?
+
+  product    Product  @relation(fields: [product_id], references: [product_id])
+  product_id String
+  createdAt  DateTime @default(now())
+}
+
+model Order {
+  order_id     String    @id @default(cuid())
+  totalAmount  Float
+  status       String
+  orderDate    DateTime  @default(now())
+  deliveryDate DateTime?
+
+  user_id    String
+  user       User         @relation(fields: [user_id], references: [id])
+  orderItems Order_Item[]
+  payment    Payment?
+  shipping   Shipping?
+}
+
+model Order_Item {
+  order_item_id String @id @default(cuid())
+  quantity      Int
+  price         Float
+
+  order      Order   @relation(fields: [order_id], references: [order_id])
+  order_id   String
+  product    Product @relation(fields: [product_id], references: [product_id])
+  product_id String
+}
+
+model Cart {
+  cart_id   String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user_id   String      @unique
+  user      User        @relation(fields: [user_id], references: [id])
+  cartItems Cart_Item[]
+}
+
+model Cart_Item {
+  cart_item_id String @id @default(cuid())
+  quantity     Int
+
+  cart       Cart    @relation(fields: [cart_id], references: [cart_id])
+  cart_id    String
+  product    Product @relation(fields: [product_id], references: [product_id])
+  product_id String
+}
+
+model Payment {
+  payment_id    String   @id @default(cuid())
+  amount        Float
+  paymentMethod String
+  status        String
+  paymentDate   DateTime @default(now())
+
+  order    Order  @relation(fields: [order_id], references: [order_id])
+  order_id String @unique
+}
+
+model Shipping {
+  shipping_id    String    @id @default(cuid())
+  address        String
+  shippingDate   DateTime?
+  trackingNumber String?
+  shippingStatus String
+
+  order_id String @unique
+  order    Order  @relation(fields: [order_id], references: [order_id])
+}
