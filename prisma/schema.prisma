@@ -58,11 +58,11 @@ model Account {
 }
 
 model Verification {
-  id          String   @id @default(cuid())
-  indentifier String
-  value       String
-  expiresAt   DateTime
-  identifier  String
+  id String @id @default(cuid())
+
+  value      String
+  expiresAt  DateTime
+  identifier String
 
   @@map("verification")
 }
@@ -85,6 +85,7 @@ model Product {
   slug        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  discount    Float?
 
   category Category[]
 
@@ -169,4 +170,12 @@ model Shipping {
 
   order_id String @unique
   order    Order  @relation(fields: [order_id], references: [order_id])
+}
+
+model Coupon {
+  coupon_id String   @id @default(cuid())
+  code      String
+  discount  Float
+  expiresAt DateTime
+  isActive  Boolean
 }
