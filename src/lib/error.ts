@@ -50,3 +50,36 @@ export class HttpError extends Error {
     return new HttpError(message || "Gateway Timeout", 504, error);
   }
 }
+
+export function handleError(
+  statusCode: number,
+  message?: string,
+  error?: unknown
+): HttpError {
+  switch (statusCode) {
+    case 400:
+      return HttpError.BadRequest(message, error);
+    case 401:
+      return HttpError.Unauthorized(message, error);
+    case 403:
+      return HttpError.Forbidden(message, error);
+    case 404:
+      return HttpError.NotFound(message, error);
+    case 405:
+      return HttpError.MethodNotAllowed(message, error);
+    case 409:
+      return HttpError.Conflict(message, error);
+    case 500:
+      return HttpError.Internal(message, error);
+    case 501:
+      return HttpError.NotImplemented(message, error);
+    case 502:
+      return HttpError.BadGateway(message, error);
+    case 503:
+      return HttpError.ServiceUnavailable(message, error);
+    case 504:
+      return HttpError.GatewayTimeout(message, error);
+    default:
+      return new HttpError(message || "Unknown Error", statusCode, error);
+  }
+}

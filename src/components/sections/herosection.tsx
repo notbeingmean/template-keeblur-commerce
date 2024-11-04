@@ -47,7 +47,7 @@ function HeroSection() {
       </div>
 
       {/* Small Images Container */}
-      <div className="md:flex flex-col md:space-x-0 md:gap-2 space-x-2 grid grid-cols-2 mb-2 w-full ">
+      <div className="md:flex md:flex-col md:space-x-0 md:gap-2 space-x-2 grid grid-cols-2 mb-2 w-full ">
         <Image
           src="/placeholder/400x400.svg"
           width={400}

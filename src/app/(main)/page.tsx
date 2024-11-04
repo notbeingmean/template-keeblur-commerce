@@ -3,8 +3,18 @@ import BlogSection from "@/components/sections/blogsection";
 import HeroSection from "@/components/sections/herosection";
 import ProductSection from "@/components/sections/products-section";
 
+import { client } from "@/server/client";
+
 export default async function Home() {
-  const arr = [1, 2, 3, 4, 5];
+  const { data, error } = await client.api.products.get({
+    query: {
+      take: 5,
+    },
+  });
+
+  if (error) {
+    return <div>error</div>;
+  }
 
   return (
     <>
@@ -12,7 +22,7 @@ export default async function Home() {
       <ProductSection
         title="สินค้ามาใหม่"
         description="เลือกช้อปสินค้าใหม่ล่าสุดก่อนใครได้เลย"
-        products={arr}
+        products={data}
       />
       <Banner
         title="บริการส่งด่วน 3 ชั่วโมง"
@@ -22,9 +32,9 @@ export default async function Home() {
       <ProductSection
         title="สินค้าขายดี"
         description="สินค้าที่เราแนะนำให้คุณ"
-        products={arr}
+        products={data}
       />
-      <ProductSection title="สินค้า" description="สินค้า" products={arr} />
+      <ProductSection title="สินค้า" description="สินค้า" products={data} />
       <BlogSection />
     </>
   );
