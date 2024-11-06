@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { formatPrice, ProductType } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 
 type ProductCardProps = {
   products: ProductType;
@@ -18,7 +19,7 @@ export default function ProductCard({ products }: ProductCardProps) {
     if (imageCount > 1) {
       setHoveredProducts((prev) => ({
         ...prev,
-        [index]: 1, // Set to second image (index 1) when hovered
+        [index]: 1,
       }));
     }
   };
@@ -26,7 +27,7 @@ export default function ProductCard({ products }: ProductCardProps) {
   const handleMouseLeave = (index: number) => {
     setHoveredProducts((prev) => ({
       ...prev,
-      [index]: 0, // Set back to first image (index 0) when not hovered
+      [index]: 0,
     }));
   };
 
@@ -61,9 +62,14 @@ export default function ProductCard({ products }: ProductCardProps) {
             <p className="text-sm font-bold text-foreground">
               {formatPrice(item.price)}
             </p>
-            <Button className="w-full" disabled={item.stock === 0}>
-              {item.stock === 0 ? "สินค้าหมด" : "เพิ่มลงตะกร้า"}
-            </Button>
+            <Link
+              className={buttonVariants({
+                className: "w-full",
+              })}
+              href={"/" + item.slug}
+            >
+              ดูสินค้า
+            </Link>
           </div>
         </div>
       ))}

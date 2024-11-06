@@ -35,7 +35,7 @@ function HeroSection() {
                   src="/placeholder/1200x800.svg"
                   width={1200}
                   height={400}
-                  alt=""
+                  alt="banner"
                   className="object-cover w-full h-full max-h-[24.5rem] rounded "
                 />
               </CarouselItem>

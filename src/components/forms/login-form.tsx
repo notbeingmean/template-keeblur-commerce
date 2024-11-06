@@ -1,5 +1,4 @@
 "use client";
-"use client";
 
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -29,8 +28,11 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { handleError, HttpError } from "@/lib/error";
 import useCartItem from "@/hooks/useCart";
+import { usePathname } from "next/navigation";
 
 function LoginForm() {
+  const path = usePathname();
+  console.log(path);
   const { fetchItems } = useCartItem();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,7 +44,11 @@ function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const { error } = await authClient.signIn.email(values);
+      const { error } = await authClient.signIn.email({
+        email: values.email,
+        password: values.password,
+        callbackURL: path,
+      });
 
       if (error) {
         throw handleError(error.status, error.message);
@@ -59,6 +65,7 @@ function LoginForm() {
     try {
       const { error } = await authClient.signIn.social({
         provider: "google",
+        callbackURL: path,
       });
       if (error) {
         throw handleError(error.status, error.message);
@@ -77,6 +84,7 @@ function LoginForm() {
     try {
       const { error } = await authClient.signIn.social({
         provider: "github",
+        callbackURL: path,
       });
       if (error) {
         throw handleError(error.status, error.message);

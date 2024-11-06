@@ -20,6 +20,7 @@ import { ChevronRight, Grid2X2, Search, ShoppingBasket } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Highlighter from "react-highlight-words";
 
 function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -96,7 +97,7 @@ function SearchInput() {
               {products.map((product) => {
                 return (
                   <Link
-                    href={`/products/${product.slug}`}
+                    href={`/${product.slug}`}
                     key={product.product_id}
                     className="flex items-center justify-between p-2 hover:bg-zinc-200"
                   >
@@ -155,7 +156,11 @@ function SearchInput() {
                       <div className="p-1 bg-zinc-300">
                         <Grid2X2 size={16} />
                       </div>
-                      <span>{result.name}</span>
+                      <Highlighter
+                        searchWords={[searchValue]}
+                        autoEscape={true}
+                        textToHighlight={result.name}
+                      />
                     </Link>
                   ))}
                 </div>
@@ -179,7 +184,11 @@ function SearchInput() {
                       <div className="p-1 bg-zinc-300">
                         <ShoppingBasket size={16} />
                       </div>
-                      <span>{result.name}</span>
+                      <Highlighter
+                        searchWords={[searchValue]}
+                        autoEscape={true}
+                        textToHighlight={result.name}
+                      />
                     </Link>
                   ))}
                 </div>

@@ -1,53 +1,76 @@
 "use client";
 
-import { ShoppingCart, User, User2 } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-
+import { ShoppingCart } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import LoginDialog from "@/components/dialogs/login";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import useCartItem from "@/hooks/useCart";
+import Link from "next/link";
+import { useCallback } from "react";
 
 function AuthNavigation() {
-  // eslint-disable-next-line no-unused-vars
   const { data } = authClient.useSession();
+  const { items, clearCart } = useCartItem();
 
-  async function handleSignOut() {
-    await authClient.signOut();
+  const handleSignOut = useCallback(async () => {
+    try {
+      // Sign out from auth
+      await authClient.signOut();
 
-    toast.success("ออกจากระบบสำเร็จ");
-  }
+      // Clear cart state and localStorage
+      clearCart();
+      localStorage.removeItem("cart-item-storage");
+
+      // Show success message
+      toast.success("ออกจากระบบสำเร็จ");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("เกิดข้อผิดพลาดในการออกจากระบบ");
+    }
+  }, [clearCart]);
 
   return (
-    <div className="flex items-center space-x-4 ">
-      <div className="relative hidden sm:block">
+    <div className="flex items-center space-x-4">
+      <Link href="/cart" className="relative hidden sm:block">
         <ShoppingCart />
-        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-          38
-        </span>
-      </div>
+        {items.length > 0 && (
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+            {items.length}
+          </span>
+        )}
+      </Link>
       {data ? (
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={data.user.image} />
-              <AvatarFallback>{data.user.name}</AvatarFallback>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="h-8 w-8 cursor-pointer hidden sm:block">
+              <AvatarImage src={data.user.image} alt={data.user.name} />
+              <AvatarFallback>{data.user.name?.charAt(0)}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>บัญชีของฉัน</DropdownMenuItem>
-            <DropdownMenuItem>รายการคำสั่งซื้อ</DropdownMenuItem>
-            <DropdownMenuItem>คูปองของฉัน</DropdownMenuItem>
-            <DropdownMenuItem onClick={handleSignOut}>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem className="cursor-pointer">
+              บัญชีของฉัน
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              รายการโปรด
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              รายการคำสั่งซื้อ
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              คูปองของฉัน
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={handleSignOut}
+              className="cursor-pointer text-red-600 focus:text-red-600"
+            >
               ออกจากระบบ
             </DropdownMenuItem>
           </DropdownMenuContent>
