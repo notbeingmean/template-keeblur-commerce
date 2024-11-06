@@ -6,6 +6,7 @@ import autocomplete from "./autocomplete/autocomplete";
 const publicRouter = new Elysia()
   .use(categoriesPublicRouter)
   .use(productsPublicRouter)
+
   .use(autocomplete);
 
 export default publicRouter;
