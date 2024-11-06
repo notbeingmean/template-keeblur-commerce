@@ -14,19 +14,36 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String
-  email         String    @unique
-  emailVerified Boolean   @default(false)
+  email         String     @unique
+  emailVerified Boolean    @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   Session       Session[]
   Account       Account[]
   Cart          Cart[]
   Order         Order[]
+  Wishlist      Wishlist[]
+  Address       Address[]
 
   @@map("user")
+}
+
+model Address {
+  address_id String @id @default(cuid())
+  user       User   @relation(fields: [user_id], references: [id])
+  user_id    String
+  street     String
+  city       String
+  state      String
+  postalCode String
+  country    String
+  type       String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Session {
@@ -92,6 +109,7 @@ model Product {
   images     Product_Image[]
   orderItems Order_Item[]
   cartItems  Cart_Item[]
+  wishlist   Wishlist[]
 }
 
 model Product_Image {
@@ -178,4 +196,14 @@ model Coupon {
   discount  Float
   expiresAt DateTime
   isActive  Boolean
+}
+
+model Wishlist {
+  wishlist_id String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user_id  String    @unique
+  user     User      @relation(fields: [user_id], references: [id])
+  products Product[]
 }
