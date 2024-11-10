@@ -8,13 +8,13 @@ import {
 } from "@/components/ui/card";
 import IconInput from "@/components/ui/icon-input";
 import useDebounce from "@/hooks/useDebounce";
+import { cn } from "@/lib/utils";
 import {
-  cn,
   fetchProducts,
   fetchSearchResults,
   ProductType,
   SearchResults,
-} from "@/lib/utils";
+} from "@/lib/fetch";
 
 import { ChevronRight, Grid2X2, Search, ShoppingBasket } from "lucide-react";
 import Image from "next/image";

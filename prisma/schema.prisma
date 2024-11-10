@@ -32,15 +32,16 @@ model User {
 }
 
 model Address {
-  address_id String @id @default(cuid())
-  user       User   @relation(fields: [user_id], references: [id])
-  user_id    String
-  street     String
-  city       String
-  state      String
-  postalCode String
-  country    String
-  type       String
+  address_id  String @id @default(cuid())
+  user        User   @relation(fields: [user_id], references: [id])
+  user_id     String
+  name        String
+  type        String
+  address     String
+  province    String
+  phoneNumber String
+  postalCode  String
+  priority    Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

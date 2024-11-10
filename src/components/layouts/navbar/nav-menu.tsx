@@ -11,7 +11,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { CategoryData, fetchCategories } from "@/lib/utils";
+import { CategoryData, fetchCategories } from "@/lib/fetch";
 
 type CategoryListProps = {
   categories: CategoryData;

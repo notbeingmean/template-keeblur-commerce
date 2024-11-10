@@ -3,6 +3,7 @@ import { z } from "zod";
 
 const publicEnv = z.object({
   NEXT_PUBLIC_SERVER_URL: z.string().default("http://localhost:3000"),
+  NEXT_PUBLIC_SRTIPE_PUBLIC_KEY: z.string(),
 });
 
 const privateEnv = z.object({
@@ -15,6 +16,8 @@ const privateEnv = z.object({
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_CLIENT_SECRET: z.string(),
   DATABASE_URL: z.string(),
+  SERVER_PORT: z.string().default("3001"),
+  SRTIPE_SECRET_KEY: z.string(),
 });
 
 declare global {

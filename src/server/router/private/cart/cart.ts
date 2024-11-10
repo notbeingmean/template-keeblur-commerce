@@ -7,7 +7,8 @@ const cartRouter = new Elysia()
   .derive(({ request }) => userMiddleware(request))
   .get("/cart", async ({ user }) => {
     try {
-      const cart = await db.cart.findFirst({
+      if (!user) throw HttpError.Unauthorized("Unauthorized");
+      const cart = await db.cart.findUnique({
         where: {
           user_id: user?.id,
         },
@@ -17,7 +18,19 @@ const cartRouter = new Elysia()
       });
 
       if (!cart) {
-        throw HttpError.NotFound("Cart not found");
+        await db.cart.create({
+          data: {
+            user: {
+              connect: {
+                id: user?.id,
+              },
+            },
+          },
+        });
+
+        return {
+          cartItems: [],
+        };
       }
 
       return cart;

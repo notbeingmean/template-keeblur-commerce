@@ -1,6 +1,7 @@
 import Elysia from "elysia";
 import { staticPlugin } from "@elysiajs/static";
 import { router } from "./router";
+import cors from "@elysiajs/cors";
 
 const app = new Elysia({ prefix: "/api" })
   .use(
@@ -8,7 +9,9 @@ const app = new Elysia({ prefix: "/api" })
       assets: process.cwd() + "/public",
     })
   )
-  .use(router);
+  .use(cors())
+  .use(router)
+  .listen(process.env.SERVER_PORT);
 
 export type App = typeof app;
 export default app;
