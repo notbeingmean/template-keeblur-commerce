@@ -10,8 +10,8 @@ const app = new Elysia({ prefix: "/api" })
     })
   )
   .use(cors())
-  .use(router)
-  .listen(process.env.SERVER_PORT);
+  .use(router);
+// .listen(process.env.SERVER_PORT);
 
 export type App = typeof app;
 export default app;
