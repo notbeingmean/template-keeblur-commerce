@@ -45,7 +45,6 @@ const productsPublicRouter = new Elysia()
         skip: t.Optional(t.Number()),
         take: t.Optional(t.Number()),
         category: t.Optional(t.Array(t.String())),
-        page: t.Optional(t.Number()),
       }),
     }
   )

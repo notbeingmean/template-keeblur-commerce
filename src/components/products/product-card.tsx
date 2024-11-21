@@ -2,15 +2,22 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { formatPrice, ProductType } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { ProductType } from "@/lib/fetch";
 
 type ProductCardProps = {
   products: ProductType;
+  buttonTitle?: string;
+  disableBtn?: boolean;
 };
 
-export default function ProductCard({ products }: ProductCardProps) {
+export default function ProductCard({
+  products,
+  buttonTitle = "ดูรายละเอียด",
+  disableBtn = false,
+}: ProductCardProps) {
   const [hoveredProducts, setHoveredProducts] = useState<{
     [key: number]: number;
   }>({});
@@ -32,9 +39,9 @@ export default function ProductCard({ products }: ProductCardProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 my-2">
       {products.map((item, index) => (
-        <div key={index} className="p-4 rounded-lg shadow-md bg-background">
+        <div key={index} className="p-4 rounded-lg border bg-background">
           <div
             className="relative overflow-hidden rounded-md"
             onMouseEnter={() => handleMouseEnter(index, item.images.length)}
@@ -62,14 +69,16 @@ export default function ProductCard({ products }: ProductCardProps) {
             <p className="text-sm font-bold text-foreground">
               {formatPrice(item.price)}
             </p>
-            <Link
-              className={buttonVariants({
-                className: "w-full",
-              })}
-              href={"/" + item.slug}
-            >
-              ดูสินค้า
-            </Link>
+            {!disableBtn ? (
+              <Link
+                className={buttonVariants({
+                  className: "w-full",
+                })}
+                href={"/products/" + item.slug}
+              >
+                {buttonTitle}
+              </Link>
+            ) : null}
           </div>
         </div>
       ))}

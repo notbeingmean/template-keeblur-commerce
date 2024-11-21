@@ -1,10 +1,11 @@
 import React from "react";
 
-import { cn, ProductType } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 import { customizeColors } from "@/data/info";
 import Link from "next/link";
-import ProductCard from "../product-card";
+import ProductCard from "../products/product-card";
+import { ProductType } from "@/lib/fetch";
 
 type ProductSectionProps = {
   title: string;

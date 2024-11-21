@@ -19,7 +19,19 @@ export async function fetchCategories(
   return data;
 }
 
-export async function fetchProducts(opts: { skip?: number; take?: number }) {
+export async function fetchProduct(slug: string) {
+  const { data, error } = await client.api
+    .products({
+      slug,
+    })
+    .get();
+
+  return data;
+}
+
+export async function fetchProducts(
+  opts: { skip?: number; take?: number; category?: string[] } = {}
+) {
   const { data, error } = await client.api.products.get({
     query: opts,
   });
@@ -58,3 +70,4 @@ export type CategoryData = Awaited<ReturnType<typeof fetchCategories>>;
 export type ProductType = Awaited<ReturnType<typeof fetchProducts>>;
 export type SearchResults = Awaited<ReturnType<typeof fetchSearchResults>>;
 export type AddressType = Awaited<ReturnType<typeof fetchAddress>>;
+export type ProductDetailType = Awaited<ReturnType<typeof fetchProduct>>;
