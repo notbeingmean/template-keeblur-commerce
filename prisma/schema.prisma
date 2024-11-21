@@ -43,8 +43,9 @@ model Address {
   postalCode  String
   priority    Int
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Shipping  Shipping[]
 }
 
 model Session {
@@ -100,17 +101,19 @@ model Product {
   description String?
   price       Float
   stock       Int
-  slug        String
+  slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   discount    Float?
 
   category Category[]
 
-  images     Product_Image[]
-  orderItems Order_Item[]
-  cartItems  Cart_Item[]
-  wishlist   Wishlist[]
+  images Product_Image[]
+
+  cartItems     Cart_Item[]
+  wishlist      Wishlist[]
+  orderDetail   OrderDetail[]
+  productDetail Product_Detail?
 }
 
 model Product_Image {
@@ -124,29 +127,37 @@ model Product_Image {
   createdAt  DateTime @default(now())
 }
 
-model Order {
-  order_id     String    @id @default(cuid())
-  totalAmount  Float
-  status       String
-  orderDate    DateTime  @default(now())
-  deliveryDate DateTime?
-
-  user_id    String
-  user       User         @relation(fields: [user_id], references: [id])
-  orderItems Order_Item[]
-  payment    Payment?
-  shipping   Shipping?
+model Product_Detail {
+  product_detail_id String   @id @default(cuid())
+  product_id        String   @unique
+  name              String
+  value             String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  product           Product  @relation(fields: [product_id], references: [product_id])
 }
 
-model Order_Item {
-  order_item_id String @id @default(cuid())
-  quantity      Int
-  price         Float
+model Order {
+  order_id    String   @id @default(cuid())
+  totalAmount Float
+  status      String   @default("pending")
+  orderDate   DateTime @default(now())
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
 
-  order      Order   @relation(fields: [order_id], references: [order_id])
-  order_id   String
-  product    Product @relation(fields: [product_id], references: [product_id])
-  product_id String
+  shipping    Shipping?
+  orderDetail OrderDetail[] // Relation to OrderDetail
+}
+
+model OrderDetail {
+  id        String   @id @default(uuid())
+  order     Order    @relation(fields: [orderId], references: [order_id])
+  orderId   String
+  product   Product  @relation(fields: [productId], references: [product_id])
+  productId String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Cart {
@@ -169,23 +180,14 @@ model Cart_Item {
   product_id String
 }
 
-model Payment {
-  payment_id    String   @id @default(cuid())
-  amount        Float
-  paymentMethod String
-  status        String
-  paymentDate   DateTime @default(now())
-
-  order    Order  @relation(fields: [order_id], references: [order_id])
-  order_id String @unique
-}
-
 model Shipping {
-  shipping_id    String    @id @default(cuid())
-  address        String
+  shipping_id String  @id @default(cuid())
+  address     Address @relation(fields: [address_id], references: [address_id])
+  address_id  String
+
   shippingDate   DateTime?
   trackingNumber String?
-  shippingStatus String
+  shippingStatus String    @default("pending")
 
   order_id String @unique
   order    Order  @relation(fields: [order_id], references: [order_id])
