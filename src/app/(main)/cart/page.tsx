@@ -14,7 +14,7 @@ async function CartPage() {
   });
 
   return (
-    <div>
+    <div className="mb-24">
       <PageHeader
         links={[{ name: "ตะกร้าสินค้า", url: "/cart", isLast: true }]}
         title="ตะกร้าสินค้า"

@@ -1,7 +1,21 @@
-import React from "react";
+"use client";
+import MDEditor from "@uiw/react-md-editor";
+import React, { useState } from "react";
 
 function Backoffice() {
-  return <div>Backoffice</div>;
+  const [value, setValue] = useState("");
+  return (
+    <div>
+      <h1>Backoffice</h1>
+      <div>
+        <MDEditor
+          value={value}
+          onChange={(val) => setValue(val || "")}
+          highlightEnable={false}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default Backoffice;
