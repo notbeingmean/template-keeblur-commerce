@@ -1,6 +1,13 @@
 "use client";
 
-import { ShoppingCart } from "lucide-react";
+import {
+  Heart,
+  LogOut,
+  ShoppingBag,
+  ShoppingCart,
+  Ticket,
+  User2,
+} from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import LoginDialog from "@/components/dialogs/login";
 import {
@@ -14,10 +21,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import useCartItem from "@/hooks/useCart";
 import Link from "next/link";
 import { useCallback } from "react";
+import useWishlist from "@/hooks/useWishlist";
 
 function AuthNavigation() {
   const { data } = authClient.useSession();
   const { items, clearCart } = useCartItem();
+  const { clearWishlist } = useWishlist();
 
   const handleSignOut = useCallback(async () => {
     try {
@@ -27,14 +36,17 @@ function AuthNavigation() {
       // Clear cart state and localStorage
       clearCart();
       localStorage.removeItem("cart-item-storage");
+      clearWishlist();
+      localStorage.removeItem("wishlist");
 
       // Show success message
       toast.success("ออกจากระบบสำเร็จ");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      console.error("Logout failed:", error);
+      // console.error("Logout failed:", error);
       toast.error("เกิดข้อผิดพลาดในการออกจากระบบ");
     }
-  }, [clearCart]);
+  }, [clearCart, clearWishlist]);
 
   return (
     <div className="flex items-center space-x-4">
@@ -55,23 +67,31 @@ function AuthNavigation() {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem className="cursor-pointer">
-              บัญชีของฉัน
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link href="/account">
+                <User2 /> บัญชีของฉัน
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              รายการโปรด
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link href="/account/wishlist">
+                <Heart /> รายการโปรด
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              รายการคำสั่งซื้อ
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link href="/account/orders">
+                <ShoppingBag /> รายการคำสั่งซื้อ
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              คูปองของฉัน
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link href="/account/coupons">
+                <Ticket /> คูปอง
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleSignOut}
               className="cursor-pointer text-red-600 focus:text-red-600"
             >
-              ออกจากระบบ
+              <LogOut /> ออกจากระบบ
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

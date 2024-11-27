@@ -6,6 +6,7 @@ import useCartItem from "@/hooks/useCart";
 
 import Checkout from "@/components/checkout";
 import { ProductType } from "@/lib/fetch";
+import { authClient } from "@/lib/auth-client";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
@@ -14,7 +15,9 @@ type PaymentSectionProps = {
 };
 
 function PaymentSection({ products }: PaymentSectionProps) {
-  const { items, removeItem, updateItem, shippingMethod } = useCartItem();
+  const { items, removeItem, updateItem, shippingMethod, addressId } =
+    useCartItem();
+  const { data } = authClient.useSession();
 
   const findProduct = useCallback(
     (id: string) => {
@@ -31,6 +34,15 @@ function PaymentSection({ products }: PaymentSectionProps) {
     );
   }, 0);
 
+  if (totalItems === 0) {
+    return (
+      <div className="flex justify-center items-center h-96 flex-col">
+        <p className="text-2xl">ไม่สามารถทำรายการต่อได้</p>
+        <p>กรุณาลองใหม่อีกครั้งหรือติดต่อเจ้าหน้าที่</p>
+      </div>
+    );
+  }
+
   return (
     <main className="">
       <Elements
@@ -42,6 +54,7 @@ function PaymentSection({ products }: PaymentSectionProps) {
           locale: "th",
           appearance: {
             theme: "flat",
+
             variables: {
               fontFamily: "'Noto Sans Thai', system-ui, sans-serif",
             },

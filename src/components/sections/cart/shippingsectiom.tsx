@@ -17,13 +17,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn, formatPrice } from "@/lib/utils";
 import { AddressType, ProductType } from "@/lib/fetch";
 import useCartItem from "@/hooks/useCart";
+
+import Link from "next/link";
+import CreateAddressDialog from "@/components/dialogs/create-address";
 
 type ShippingSectionProps = {
   addresses: AddressType;
@@ -34,9 +33,15 @@ export default function ShippingSection({
   addresses,
   products,
 }: ShippingSectionProps) {
-  const [selectedAddress, setSelectedAddress] = useState<number>(0);
-  const { items, removeItem, updateItem, shippingMethod, setShippingMethod } =
-    useCartItem();
+  const {
+    items,
+    removeItem,
+    updateItem,
+    shippingMethod,
+    setShippingMethod,
+    addressId,
+    setAddressId,
+  } = useCartItem();
 
   const findProduct = useCallback(
     (id: string) => {
@@ -51,6 +56,15 @@ export default function ShippingSection({
     return sum + (product ? product.price * item.quantity : 0);
   }, 0);
 
+  if (totalItems === 0) {
+    return (
+      <div className="flex justify-center items-center h-96 flex-col">
+        <p className="text-2xl">ไม่สามารถทำรายการต่อได้</p>
+        <p>คุณไม่สามารถทำรายการต่อได้เนื่องจาก ไม่พบสินค้าในตะกร้าของคุณ</p>
+      </div>
+    );
+  }
+
   return (
     <div className=" px-4 py-8 h-full">
       <div className="grid gap-6 lg:grid-cols-3">
@@ -64,9 +78,9 @@ export default function ShippingSection({
                 <div
                   className={cn(
                     "border rounded p-4 text-sm cursor-pointer",
-                    selectedAddress === index && " bg-zinc-50"
+                    addressId === address.address_id && " bg-zinc-50"
                   )}
-                  onClick={() => setSelectedAddress(index)}
+                  onClick={() => setAddressId(address.address_id)}
                   key={index}
                 >
                   <div className="flex items-center justify-between">
@@ -92,16 +106,10 @@ export default function ShippingSection({
                 </div>
               ))}
 
-              <Button
-                className="w-full"
-                size="lg"
-                disabled={addresses?.length === 0}
-              >
-                เพิ่มที่อยู่ใหม่
-              </Button>
+              <CreateAddressDialog />
             </CardContent>
           </Card>
-          <Card className="mt-6">
+          {/* <Card className="mt-6">
             <CardHeader>
               <CardTitle>วิธีการจัดส่ง</CardTitle>
             </CardHeader>
@@ -110,11 +118,11 @@ export default function ShippingSection({
                 value={shippingMethod.type}
                 onValueChange={(value) => {
                   if (value === "standard") {
-                    setShippingMethod({ type: "standard", price: 50 });
+                    setShippingMethod({ type: "standard", price: 100 });
                   }
 
                   if (value === "express") {
-                    setShippingMethod({ type: "express", price: 100 });
+                    setShippingMethod({ type: "express", price: 200 });
                   }
                 }}
               >
@@ -128,7 +136,7 @@ export default function ShippingSection({
                 </div>
               </RadioGroup>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
 
         <div className="lg:col-span-1">
@@ -142,11 +150,11 @@ export default function ShippingSection({
                   <span>ราคาสินค้า</span>
                   <span>{formatPrice(totalPrice)}</span>
                 </div>
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <span>ค่าจัดส่ง</span>
                   <span>{formatPrice(shippingMethod.price)}</span>
                 </div>
-                {/* <div className="flex justify-between">
+                <div className="flex justify-between">
                   <span>ส่วนลด</span>
                   <span>$0</span>
                 </div>
@@ -156,14 +164,15 @@ export default function ShippingSection({
                 </div> */}
               </div>
             </CardContent>
-            <CardFooter className="flex justify-between">
-              <span className="font-bold">ยอดรวมทั้งสิ้น</span>
-              <span className="font-bold">{formatPrice(totalPrice)}</span>
+            <CardFooter>
+              <Button asChild className="w-full" size="lg">
+                <Link href={"/payment"}>ดำเนินการต่อ</Link>
+              </Button>
             </CardFooter>
           </Card>
-          <Button className="w-full mt-4" size="lg">
+          {/* <Button className="w-full mt-4" size="lg" onClick={handleCheckout}>
             ดำเนินการต่อ
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>

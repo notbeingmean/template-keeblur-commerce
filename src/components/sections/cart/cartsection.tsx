@@ -229,7 +229,12 @@ export default function CartSection({ products }: CartSectionProps) {
                 or 4 interest-free payments of ${(totalPrice / 4).toFixed(2)}{" "}
                 with Afterpay
               </div> */}
-              <Button className="w-full" size="lg" onClick={onSummit}>
+              <Button
+                className="w-full"
+                size="lg"
+                onClick={onSummit}
+                disabled={totalItems === 0}
+              >
                 ชำระเงิน
               </Button>
             </div>

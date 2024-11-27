@@ -13,13 +13,13 @@ function CreateAddressDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" className="hidden md:block">
-          เข้าสู่ระบบ
+        <Button size="lg" className="w-full">
+          เพิ่มที่อยู่ใหม่
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>เข้าสู่ระบบ</DialogTitle>
+          <DialogTitle>เพิ่มที่อยู่ใหม่</DialogTitle>
         </DialogHeader>
         <CreateAddressForm />
       </DialogContent>

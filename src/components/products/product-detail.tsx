@@ -9,6 +9,11 @@ import { Button } from "@/components/ui/button";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import useCartItem from "@/hooks/useCart";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import Markdown from "react-markdown";
+import MDEditor from "@uiw/react-md-editor";
 
 type ProductDetailProps = {
   product: ProductDetailType;
@@ -17,6 +22,9 @@ type ProductDetailProps = {
 export default function ProductDetail({ product }: ProductDetailProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const { addItem, items, updateItem } = useCartItem();
+  const router = useRouter();
+  const [value, setValue] = useState(product?.productDetail?.value);
 
   if (!product) return null;
 
@@ -30,33 +38,49 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     );
   };
 
+  const hasSameItem = items.find(
+    (item) => item.product_id === product.product_id
+  );
+
+  console.log(value);
   return (
     <div className="grid md:grid-cols-2 gap-8">
       <div className="space-y-4">
         <div className="p-4 border rounded">
           <div className="relative aspect-square group ">
-            <Image
-              src={product.images[selectedImage].imageUrl}
-              alt={product.name}
-              fill
-              className="object-cover rounded-lg"
-            />
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 rounded-full hidden group-hover:flex"
-              onClick={prevImage}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-full  hidden group-hover:flex"
-              onClick={nextImage}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+            {product.images.length > 0 ? (
+              <>
+                <Image
+                  src={product.images[selectedImage].imageUrl}
+                  alt={product.name}
+                  fill
+                  className="object-cover rounded-lg"
+                />
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 rounded-full hidden group-hover:flex"
+                  onClick={prevImage}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-full  hidden group-hover:flex"
+                  onClick={nextImage}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </>
+            ) : (
+              <Image
+                src="/placeholder/400x400.svg"
+                alt="No Image"
+                fill
+                className="object-cover rounded-lg"
+              />
+            )}
           </div>
         </div>
 
@@ -105,12 +129,34 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             </Button>
           </div>
           <div className="flex space-x-4">
-            <Button className="flex-1">
+            <Button
+              className="flex-1"
+              onClick={() => {
+                if (hasSameItem) {
+                  updateItem(
+                    items[0].cart_id,
+                    items[0].cart_item_id,
+                    product.product_id,
+                    items[0].quantity + quantity
+                  );
+                  return;
+                }
+
+                addItem(product.product_id, quantity);
+              }}
+            >
               <ShoppingCart className="mr-2 h-4 w-4" />
-              Add to Cart
+              เพิ่มลงตะกร้า
             </Button>
-            <Button variant="secondary" className="flex-1">
-              Buy Now
+            <Button
+              variant="secondary"
+              className="flex-1"
+              onClick={() => {
+                addItem(product.product_id, quantity);
+                router.push("/cart");
+              }}
+            >
+              ซื้อเลย
             </Button>
             <Button variant="outline" size="icon">
               <Heart className="h-4 w-4" />
@@ -118,13 +164,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </div>
         </div>
         <div>
-          <h2 className="text-xl font-semibold">Product Details</h2>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
-            voluptates provident accusamus eum ea, eveniet voluptate saepe,
-            earum, atque quaerat tempore deleniti fuga quae similique aut ipsa
-            qui velit sapiente!
-          </p>
+          <h2 className="text-xl font-semibold">รายละเอียด</h2>
+          <div>
+            <div className="prose dark:prose-invert max-w-none my-4">
+              <Markdown>
+                {product.productDetail?.value || "ไม่มีข้อมูล"}
+              </Markdown>
+            </div>
+          </div>
         </div>
       </div>
     </div>

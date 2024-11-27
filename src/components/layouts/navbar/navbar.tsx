@@ -9,14 +9,17 @@ import SearchInput from "./search-input";
 import AuthNavigation from "./auth-nav";
 import Link from "next/link";
 import useCartItem from "@/hooks/useCart";
+import useWishlist from "@/hooks/useWishlist";
 
 function Navbar() {
   const { companyName } = info;
   const { logo } = customizeColors;
-  const { fetchItems, items } = useCartItem();
+  const { fetchItems } = useCartItem();
+  const { fetchWishlists } = useWishlist();
 
   useEffect(() => {
     fetchItems();
+    fetchWishlists();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

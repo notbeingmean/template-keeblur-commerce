@@ -38,6 +38,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "../ui/button";
+import { AddressType } from "@/lib/fetch";
 
 type DistrictType = {
   id: number;
@@ -56,7 +57,7 @@ const addressSchema = z.object({
   type: z.string(),
 });
 
-function CreateAddressForm() {
+function EditAddressForm() {
   const [data, setData] = useState<DistrictType[]>([]);
 
   useEffect(() => {
@@ -245,11 +246,11 @@ function CreateAddressForm() {
         />
 
         <Button type="submit" className="w-full">
-          เพิ่มที่อยู่ใหม่
+          แก้ไขที่อยู่
         </Button>
       </form>
     </Form>
   );
 }
 
-export default CreateAddressForm;
+export default EditAddressForm;

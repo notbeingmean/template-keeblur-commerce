@@ -7,6 +7,9 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import { client } from "@/server/client";
+import useCartItem from "@/hooks/useCart";
+import { formatPrice } from "@/lib/utils";
+import { toast } from "sonner";
 
 const Checkout = ({ amount }: { amount: number }) => {
   const stripe = useStripe();
@@ -14,17 +17,19 @@ const Checkout = ({ amount }: { amount: number }) => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+  const { addressId } = useCartItem();
 
   useEffect(() => {
     async function createPaymentIntent() {
       const { data, error } = await client.api["create-payment-intent"].post({
         amount: amount * 100,
+        address_id: addressId,
       });
 
       setClientSecret(data?.client_secret || "");
     }
     createPaymentIntent();
-  }, [amount]);
+  }, [addressId, amount]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,7 +38,7 @@ const Checkout = ({ amount }: { amount: number }) => {
     if (!stripe || !elements) {
       return;
     }
-
+    toast.loading("กำลังชำระเงิน...");
     const { error: submitError } = await elements.submit();
 
     if (submitError) {
@@ -54,10 +59,10 @@ const Checkout = ({ amount }: { amount: number }) => {
       // This point is only reached if there's an immediate error when
       // confirming the payment. Show the error to your customer (for example, payment details incomplete)
       setErrorMessage(error.message);
-    } else {
-      // The payment UI automatically closes with a success animation.
-      // Your customer is redirected to your `return_url`.
+      toast.error("เกิดข้อผิดพลาดในการชำระเงิน");
     }
+
+    toast.success("ชำระเงินสำเร็จ");
 
     setLoading(false);
   };
@@ -79,7 +84,7 @@ const Checkout = ({ amount }: { amount: number }) => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-2 rounded-md">
-      {clientSecret && <PaymentElement />}
+      {clientSecret && <PaymentElement options={{ layout: "accordion" }} />}
 
       {errorMessage && <div>{errorMessage}</div>}
 
@@ -87,7 +92,7 @@ const Checkout = ({ amount }: { amount: number }) => {
         disabled={!stripe || loading}
         className="text-white w-full p-5 bg-black mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
       >
-        {!loading ? `Pay ${amount}` : "Processing..."}
+        {!loading ? `Pay ${formatPrice(amount)}` : "กำลังชำระเงิน..."}
       </button>
     </form>
   );
