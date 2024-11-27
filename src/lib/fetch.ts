@@ -66,8 +66,19 @@ export async function fetchAddress() {
   return data;
 }
 
+export async function fetchWishlist() {
+  const { data, error } = await client.api.wishlist.get();
+
+  if (error) {
+    return;
+  }
+
+  return data;
+}
+
 export type CategoryData = Awaited<ReturnType<typeof fetchCategories>>;
 export type ProductType = Awaited<ReturnType<typeof fetchProducts>>;
 export type SearchResults = Awaited<ReturnType<typeof fetchSearchResults>>;
 export type AddressType = Awaited<ReturnType<typeof fetchAddress>>;
 export type ProductDetailType = Awaited<ReturnType<typeof fetchProduct>>;
+export type WishlistType = Awaited<ReturnType<typeof fetchWishlist>>;
