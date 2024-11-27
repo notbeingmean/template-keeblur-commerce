@@ -1,11 +1,8 @@
-import useCartItem from "@/hooks/useCart";
-import { authClient } from "@/lib/auth-client";
 import { HttpError } from "@/lib/error";
 import { db } from "@/lib/prisma";
 import { delay } from "@/lib/utils";
 import userMiddleware from "@/server/middlewares/userMiddleware";
-import assert from "assert";
-import Elysia, { redirect, t } from "elysia";
+import Elysia, { t } from "elysia";
 
 import Stripe from "stripe";
 

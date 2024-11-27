@@ -58,6 +58,7 @@ const productsPublicRouter = new Elysia()
           },
           include: {
             images: true,
+            productDetail: true,
           },
         });
 

@@ -75,6 +75,39 @@ const cartRouter = new Elysia()
         id: t.String(),
       }),
     }
+  )
+  .post(
+    "/cart",
+    async ({ user, body }) => {
+      try {
+        if (!user) throw HttpError.Unauthorized("Unauthorized");
+        const cartItem = await db.cart_Item.create({
+          data: {
+            cart: {
+              connect: {
+                user_id: user?.id,
+              },
+            },
+            product: {
+              connect: {
+                product_id: body.product_id,
+              },
+            },
+            quantity: body.quantity,
+          },
+        });
+
+        return cartItem;
+      } catch (error) {
+        throw HttpError.Internal("Internal server error", error);
+      }
+    },
+    {
+      body: t.Object({
+        product_id: t.String(),
+        quantity: t.Number(),
+      }),
+    }
   );
 
 export default cartRouter;
