@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Template Keeblur
 
-## Getting Started
+this is a template for e-commerce website to sell products and services and to manage the orders and the customers.
 
-First, run the development server:
+## Technologies
+
+[Next.js](https://nextjs.org/) - React Framework
+[Bun](https://bun.sh/) - Bun is a fast JavaScript all-in-one toolkit
+[Elysia](https://elysiajs.com/) - Elysia is a modern, fast and lightweight web framework for bun
+[Shadcn](https://www.shadcn.com/) - UI Library
+[Stripe](https://stripe.com/) - Payment Gateway
+[Prisma](https://www.prisma.io/) - Database ORM
+[Supabase](https://supabase.io/) - Storage for images
+[Neon](https://neon.tech/) - Serverless Postgres
+[BetterAuth](https://www.better-auth.com/) - for authentication
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+NEXT_PUBLIC_SERVER_URL=
+NEXT_PUBLIC_CLIENT_URL=
+
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+DATABASE_URL=
+
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
+
+NEXT_PUBLIC_STRIPE_PUBLIC_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+
+SERVER_PORT=
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

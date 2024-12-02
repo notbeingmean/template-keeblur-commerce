@@ -18,6 +18,10 @@ const privateEnv = z.object({
   DATABASE_URL: z.string(),
   SERVER_PORT: z.string().default("3001"),
   SRTIPE_SECRET_KEY: z.string(),
+  SUPABASE_URL: z.string(),
+  SUPABASE_ANON_KEY: z.string(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string(),
+  DIRECT_URL: z.string(),
 });
 
 declare global {

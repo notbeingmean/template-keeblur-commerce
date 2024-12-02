@@ -14,6 +14,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Markdown from "react-markdown";
 import MDEditor from "@uiw/react-md-editor";
+import { toast } from "sonner";
 
 type ProductDetailProps = {
   product: ProductDetailType;
@@ -25,6 +26,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const { addItem, items, updateItem } = useCartItem();
   const router = useRouter();
   const [value, setValue] = useState(product?.productDetail?.value);
+  const { data } = authClient.useSession();
 
   if (!product) return null;
 
@@ -141,7 +143,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   );
                   return;
                 }
-
+                if (!data) {
+                  toast.error("กรุณาเข้าสู่ระบบก่อนทำการสั่งซื้อ");
+                  return;
+                }
                 addItem(product.product_id, quantity);
               }}
             >

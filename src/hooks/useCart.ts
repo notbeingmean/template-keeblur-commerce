@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { client } from "@/server/client";
@@ -122,9 +123,13 @@ const useCartItem = create<CartItemState>()(
             const address = await fetchAddress();
             const filter = address.filter((item) => item.priority === 0);
 
+            if (!filter.length) return;
+
+            const addressId = filter[0].address_id || "";
+
             if (error) throw error;
             set({ items: data?.cartItems });
-            set({ addressId: filter[0].address_id });
+            set({ addressId });
           } catch (error) {
             console.error("Failed to fetch cart items:", error);
           }
