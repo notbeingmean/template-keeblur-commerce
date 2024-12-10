@@ -50,7 +50,7 @@ function AccountSection({ addresses }: AccountSectionProps) {
 
   if (!data) return null;
   return (
-    <main className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <div>
         <h3 className="text-lg font-medium">ข้อมูลส่วนตัว</h3>
         <p className="text-sm text-muted-foreground">
@@ -60,7 +60,7 @@ function AccountSection({ addresses }: AccountSectionProps) {
       <div className="space-y-2">
         <div className="flex items-center justify-between border-b py-4">
           <div className="flex space-x-12">
-            <h1 className="font-bold text-sm w-40">ชื่อโปรไฟล์</h1>
+            <h1 className="font-bold text-sm w-16 md:w-40">ชื่อโปรไฟล์</h1>
             <div className=" text-sm">
               {data.user.name ? data.user.name : "-"}
             </div>
@@ -69,7 +69,7 @@ function AccountSection({ addresses }: AccountSectionProps) {
         </div>
         <div className="flex items-center justify-between border-b py-4">
           <div className="flex space-x-12">
-            <h1 className="font-bold text-sm w-40">อีเมล์</h1>
+            <h1 className="font-bold text-sm w-16 md:w-40">อีเมล์</h1>
             <div className=" text-sm">
               {data.user.email ? data.user.email : "-"}
             </div>
@@ -78,7 +78,7 @@ function AccountSection({ addresses }: AccountSectionProps) {
         </div>
         <div className="flex items-center justify-between border-b py-4">
           <div className="flex space-x-12">
-            <h1 className="font-bold text-sm w-40">รหัสผ่าน</h1>
+            <h1 className="font-bold text-sm w-16 md:w-40">รหัสผ่าน</h1>
             <div className=" text-sm">********</div>
           </div>
           {/* <Button variant="outline">แก้ไข</Button> */}
@@ -159,7 +159,7 @@ function AccountSection({ addresses }: AccountSectionProps) {
           <CreateAddressDialog />
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 
