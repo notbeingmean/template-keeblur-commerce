@@ -26,7 +26,6 @@ async function OrdersPage() {
       <PageHeader
         // title="รายการโปรด"
         links={[
-          { name: "หน้าแรก", url: "/" },
           { name: "บัญชีผู้ใช้", url: "/account" },
           { name: "รายการคำสั่งซื้อ", url: "/account/orders", isLast: true },
         ]}

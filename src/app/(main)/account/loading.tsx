@@ -9,10 +9,7 @@ function Loading() {
     <div>
       <PageHeader
         // title="รายการโปรด"
-        links={[
-          { name: "หน้าแรก", url: "/" },
-          { name: "บัญชีผู้ใช้", url: "/account", isLast: true },
-        ]}
+        links={[{ name: "บัญชีผู้ใช้", url: "/account", isLast: true }]}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 m-4">
