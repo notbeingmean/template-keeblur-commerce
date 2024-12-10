@@ -62,7 +62,7 @@ function AuthNavigation() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="h-8 w-8 cursor-pointer hidden sm:block">
-              <AvatarImage src={data.user.image} alt={data.user.name} />
+              <AvatarImage src={data.user.image!} alt={data.user.name} />
               <AvatarFallback>{data.user.name?.charAt(0)}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>

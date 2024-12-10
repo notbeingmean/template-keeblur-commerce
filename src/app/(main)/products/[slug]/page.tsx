@@ -8,6 +8,9 @@ import React from "react";
 async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const data = await fetchProduct(slug);
+  if (!data) {
+    return notFound();
+  }
   return (
     <div>
       <PageHeader

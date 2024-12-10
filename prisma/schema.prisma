@@ -22,12 +22,17 @@ model User {
   image         String?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
-  Session       Session[]
-  Account       Account[]
   Cart          Cart[]
   Order         Order[]
   Wishlist      Wishlist[]
   Address       Address[]
+  role          String     @default("user")
+
+  banned     Boolean?
+  banReason  String?
+  banExpires DateTime?
+  sessions   Session[]
+  accounts   Account[]
 
   @@map("user")
 }
@@ -59,6 +64,10 @@ model Session {
   updatedAt DateTime @updatedAt
   User      User     @relation(fields: [userId], references: [id])
 
+  token          String
+  impersonatedBy String?
+
+  @@unique([token])
   @@map("session")
 }
 
@@ -74,6 +83,12 @@ model Account {
   User         User      @relation(fields: [userId], references: [id])
   idToken      String?
 
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
   @@map("account")
 }
 
@@ -83,6 +98,9 @@ model Verification {
   value      String
   expiresAt  DateTime
   identifier String
+
+  createdAt DateTime?
+  updatedAt DateTime?
 
   @@map("verification")
 }
