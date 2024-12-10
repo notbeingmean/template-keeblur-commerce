@@ -95,7 +95,7 @@ function CategoryList({
                   {category.products.map((product) => (
                     <li key={product.product_id}>
                       <Link
-                        href={`/${category.slug}/${product.slug}`}
+                        href={`/products/${product.slug}`}
                         className="block px-6 py-2 text-zinc-700 hover:bg-zinc-100"
                       >
                         {product.name}
@@ -104,7 +104,7 @@ function CategoryList({
                   ))}
                   <li>
                     <Link
-                      href={`/${category.slug}`}
+                      href={`/products?category=${category.category_id}`}
                       className="block px-6 py-2 text-zinc-700 hover:bg-zinc-100"
                     >
                       ดูเพิ่มเติม
@@ -117,7 +117,7 @@ function CategoryList({
         ))}
         <li>
           <Link
-            href="/categories"
+            href="/products"
             className="w-full px-4 py-2 text-left text-zinc-800 hover:bg-zinc-200 flex items-center justify-between"
           >
             ดูทั้งหมด
