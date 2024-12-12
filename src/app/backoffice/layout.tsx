@@ -20,7 +20,10 @@ export default async function Layout({
   });
 
   if (session?.user?.role !== "admin") {
-    return redirect("/");
+    await auth.api.signOut({
+      headers: await headers(),
+    });
+    return redirect("/backoffice/sign-in");
   }
   return (
     <SidebarProvider>
