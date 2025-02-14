@@ -16,7 +16,7 @@ this is a template for e-commerce website to sell products and services and to m
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env file.
 
 ```bash
 NEXT_PUBLIC_SERVER_URL=
